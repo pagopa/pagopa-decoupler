@@ -18,11 +18,10 @@ on:
           - dev
           - uat
           - prod
-          - all
-      semver:
-        required: true
+      version:
+        required: false
         type: choice
-        description: Select the new Semantic Version
+        description: Select the version
         options:
           - patch
           - skip_or_promote
@@ -134,16 +133,14 @@ jobs:
         id: semver
         uses: pagopa/github-actions-template/ghcr-build-push@d91a1fd0b913c9830589be5d86cdb71c90813fae # v1.5.4
         with:
-          file: src/main/docker/Dockerfile.multistage
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name}}
           tag: ${{ needs.release.outputs.version }}
 
   deploy_aks:
     name: Deploy on AKS
     needs: [ setup, release, image ]
     if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
-    uses: 04h_self_hosted.yml
+    uses: ./.github/workflows/04h_deploy_with_github_runner.yml
     with:
       environment: ${{ needs.setup.outputs.environment }}
     secrets: inherit

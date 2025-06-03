@@ -12,14 +12,14 @@ permissions:
 
 jobs:
   update:
-    name: Formatting code
-    runs-on: ubuntu-18.04
+    name: Update Openapi and Formatting
+    runs-on: ubuntu-latest
     if: ${{ contains(github.event.comment.body, 'update_code') }}
     steps:
       - name: Checkout
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
-          token: ${{ secrets.API_TOKEN_GITHUB }}
+          token: ${{ secrets.BOT_TOKEN_GITHUB }}
 
       - name: Checkout Pull Request
         run: hub pr checkout ${{ github.event.issue.number }}
@@ -30,11 +30,26 @@ jobs:
         with:
           java-version: 11
 
+      - name: Update OpenApi/Swagger file
+        run: |
+          cd ./openapi
+          chmod +x ./generate_openapi.sh
+          ./generate_openapi.sh
+
       - name: Formatting
-        uses: axel-op/googlejavaformat-action@v3
+        id: format
+        uses: findologic/intellij-format-action@main
         with:
-          args: "--replace"
-          commit-message: "Google Java format [skip ci]"
+          path: .
+          fail-on-changes: false
+
+      - name: Commit files
+        run: |
+          git config --local user.email "pagopa-github-bot@pagopa.it"
+          git config --local user.name "pagopa-github-bot"
+          git commit -a -m "Formatting"
+          git push
+
 
   notify:
     needs: [ update ]
