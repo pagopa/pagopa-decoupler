@@ -19,7 +19,6 @@ variable "github_repository_environment" {
     custom_branch_policies = true
     reviewers_teams        = ["pagopa-tech"]
   }
-
 }
 
 
