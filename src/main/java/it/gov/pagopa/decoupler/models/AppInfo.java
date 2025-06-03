@@ -1,4 +1,4 @@
-package it.gov.pagopa.quarkustemplate.models;
+package it.gov.pagopa.decoupler.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppInfo {
+
     private String name;
     private String version;
     private String environment;

@@ -1,0 +1,105 @@
+###################
+# CUSTOM
+###################
+quarkus:
+  default-locale: it-IT
+  locales: it-IT
+  application:
+    environment: ${ENV:local}
+    title: ${APP_TITLE}
+  native:
+    additional-build-args: -H:ResourceConfigurationFiles=resources-config.json
+  log:
+    level: ${LOG_LEVEL:INFO}
+    category:
+      "org.jboss":
+        level: ${JBOSS_LOG_LEVEL:DEBUG}
+      "it.gov.pagopa.decoupler":
+        level: ${APP_LOG_LEVEL:DEBUG}
+    console:
+      json: true
+      json:
+        additional-field:
+          app_name:
+            value: ${quarkus.application.name}
+          app_version:
+            value: ${quarkus.application.version}
+          app_environment:
+            value: ${quarkus.application.environment}
+  smallrye-openapi:
+    info-title: ${quarkus.application.title} (${quarkus.application.environment}) ${service}
+    info-description: ${quarkus.application.title} description
+    info-terms-of-service: https://www.pagopa.gov.it/
+    servers: ${host}/decoupler/api/v1 - APIM
+    path: /openapi.json
+  swagger-ui:
+    path: /swagger
+  opentelemetry:
+    enabled: true
+    tracer:
+      exporter:
+        otlp:
+          endpoint: http://otel-collector.elastic-system.svc.cluster.local:4317
+          headers: Authorization=Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjA0VlBnYVNzNGVsdDExY21KLXNZc2FFS1k5ZW4wb3htRklHNUR2UW10Z1UifQ
+
+
+##############################
+# Dev profile
+##############################
+"%dev":
+  quarkus:
+    log:
+      console:
+        json: false
+    smallrye-openapi:
+      info-title: ${quarkus.application.title} (DEV)
+    opentelemetry:
+      enabled: false
+      tracer:
+        exporter:
+          otlp:
+            endpoint: http://localhost:4317
+            headers: Authorization=Bearer my-token
+
+
+##############################
+# Test profile
+##############################
+"%test":
+  quarkus:
+    log:
+      console:
+        json: false
+    smallrye-openapi:
+      info-title: ${quarkus.application.title} (TEST)
+    opentelemetry:
+      enabled: false
+      tracer:
+        exporter:
+          otlp:
+            endpoint: http://localhost:4317
+            headers: Authorization=Bearer my-token
+
+
+##############################
+# OpenAPI profile
+##############################
+"%openapi":
+  quarkus:
+    opentelemetry:
+      enabled: false
+
+
+##############################
+# Docker profile
+##############################
+"%docker":
+  quarkus:
+    smallrye-openapi:
+      info-title: ${quarkus.application.title} (DOCKER)
+    opentelemetry:
+      tracer:
+        exporter:
+          otlp:
+            endpoint: http://otel-collector:4317
+            headers: Authorization=Bearer my-token
