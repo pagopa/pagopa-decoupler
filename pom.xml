@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>it.gov.pagopa</groupId>
-  <artifactId>quarkus-template</artifactId> <!-- TODO: set project name -->
+  <artifactId>pagopa-decoupler</artifactId>
   <version>0.0.1</version>
 
   <properties>

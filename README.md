@@ -1,6 +1,6 @@
 # Template for Quarkus Microservice project
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=TODO-set-your-id&metric=alert_status)](https://sonarcloud.io/dashboard?id=TODO-set-your-id)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pagopa_pagopa-decoupler&metric=alert_status)](https://sonarcloud.io/dashboard?id=pagopa_pagopa-decoupler)
 
 ## TODO List
 - Add a description 
@@ -14,7 +14,7 @@ See the [OpenAPI 3 here.](https://raw.githubusercontent.com/pagopa/pagopa-quarku
 ---
 
 ## Technology Stack
-- Java 11
+- Java 17
 - Quarkus
 - other...
 ---
