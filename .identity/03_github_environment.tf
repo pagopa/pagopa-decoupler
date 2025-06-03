@@ -24,7 +24,6 @@ locals {
     "CLIENT_ID" : data.azurerm_user_assigned_identity.identity_cd_01.client_id,
     "TENANT_ID" : data.azurerm_client_config.current.tenant_id,
     "SUBSCRIPTION_ID" : data.azurerm_subscription.current.subscription_id,
-    "SUBKEY" : data.azurerm_key_vault_secret.key_vault_integration_test_subkey.value,
   }
   env_variables = {
     "CONTAINER_APP_ENVIRONMENT_NAME" : local.container_app_environment.name,
