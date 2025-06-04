@@ -1,6 +1,6 @@
 package it.gov.pagopa.decoupler.service;
 
-import it.gov.pagopa.decoupler.controller.model.InfoResponse;
+import it.gov.pagopa.decoupler.controller.model.common.InfoResponse;
 import it.gov.pagopa.decoupler.util.logging.AppMessageUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;

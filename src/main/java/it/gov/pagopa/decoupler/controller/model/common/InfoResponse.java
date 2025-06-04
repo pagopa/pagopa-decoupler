@@ -1,4 +1,4 @@
-package it.gov.pagopa.decoupler.controller.model;
+package it.gov.pagopa.decoupler.controller.model.common;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Builder;

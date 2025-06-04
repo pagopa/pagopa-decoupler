@@ -1,6 +1,6 @@
 package it.gov.pagopa.decoupler.controller.interfaces;
 
-import it.gov.pagopa.decoupler.controller.model.InfoResponse;
+import it.gov.pagopa.decoupler.controller.model.common.InfoResponse;
 import it.gov.pagopa.decoupler.controller.model.error.ErrorResponse;
 import it.gov.pagopa.decoupler.util.constant.ControllerConstants;
 import jakarta.ws.rs.GET;
