@@ -135,6 +135,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ needs.release.outputs.version }}
+          build_args: APP_NAME=pagopa-decoupler
 
   deploy_aks:
     name: Deploy on AKS
