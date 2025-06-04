@@ -2,7 +2,7 @@ microservice-chart:
   namespace: "nodo"
   image:
     repository: ghcr.io/pagopa/pagopa-decoupler
-    tag: 0.0.1-4-fix-identity
+    tag: 0.0.1-5-fix-identity
     pullPolicy: Always
   readinessProbe:
     httpGet:
