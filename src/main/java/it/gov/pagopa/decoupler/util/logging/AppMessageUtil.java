@@ -38,4 +38,8 @@ public class AppMessageUtil {
       return messageKey;
     }
   }
+
+  public static String logErrorMessage(String errorMessage) {
+    return "Error [message:%s]".formatted(errorMessage);
+  }
 }
