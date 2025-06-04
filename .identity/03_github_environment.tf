@@ -21,18 +21,20 @@ resource "github_repository_environment" "github_repository_environment" {
 
 locals {
   env_secrets = {
-    "CLIENT_ID" : data.azurerm_user_assigned_identity.identity_cd_01.client_id,
+    "CD_CLIENT_ID" : data.azurerm_user_assigned_identity.identity_cd_01.client_id,
+    "CI_CLIENT_ID" : var.env_short != "p" ? data.azurerm_user_assigned_identity.identity_ci[0].client_id : ""
     "TENANT_ID" : data.azurerm_client_config.current.tenant_id,
-    "SUBSCRIPTION_ID" : data.azurerm_subscription.current.subscription_id,
-    "SUBKEY" : data.azurerm_key_vault_secret.key_vault_integration_test_subkey.value,
+    "SUBSCRIPTION_ID" : data.azurerm_subscription.current.subscription_id
   }
   env_variables = {
     "CONTAINER_APP_ENVIRONMENT_NAME" : local.container_app_environment.name,
     "CONTAINER_APP_ENVIRONMENT_RESOURCE_GROUP_NAME" : local.container_app_environment.resource_group,
     "CLUSTER_NAME" : local.aks_cluster.name,
     "CLUSTER_RESOURCE_GROUP" : local.aks_cluster.resource_group_name,
+    "DOMAIN" : local.domain,
     "NAMESPACE" : local.domain,
-    "WORKLOAD_IDENTITY_ID": data.azurerm_user_assigned_identity.workload_identity_clientid.client_id
+    "WORKLOAD_IDENTITY_ID" : data.azurerm_user_assigned_identity.workload_identity_clientid.client_id
+    "TERRAFORM_VERSION" : local.terraform_version
   }
   repo_secrets = {
   }
