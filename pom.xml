@@ -5,7 +5,7 @@
 
   <groupId>it.gov.pagopa</groupId>
   <artifactId>pagopa-decoupler</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.1-1-fix-identity</version>
 
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
