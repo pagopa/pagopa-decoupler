@@ -1,0 +1,228 @@
+{
+  "activateiopayment": {
+    "internal_subpath": "node-for-io",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+
+  "activatepaymentnotice": {
+    "internal_subpath": "node-for-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "activatepaymentnoticev2": {
+    "internal_subpath": "node-for-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "demandpaymentnotice": {
+    "internal_subpath": "node-for-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedicatalogoserviziv2": {
+    "internal_subpath": "node-for-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiediinformativapa": {
+    "internal_subpath": "nodo-per-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochieditemplateinformativapsp": {
+    "internal_subpath": "nodo-per-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodoinviaflussorendicontazione": {
+    "internal_subpath": "nodo-per-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "sendpaymentoutcome": {
+    "internal_subpath": "node-for-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "sendpaymentoutcomev2": {
+    "internal_subpath": "node-for-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "verificabollettino": {
+    "internal_subpath": "node-for-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "verifypaymentnotice": {
+    "internal_subpath": "node-for-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedicopiart": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedielencoflussirendicontazione": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiediflussorendicontazione": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedielencoquadraturepas": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiediinformativapsp": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedilistapendentirpt": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiediquadraturapa": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedistatorpt": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodoinviacarrellorpt": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+    "path_to_password_field": "Envelope.Body.nodoInviaCarrelloRPT.password",
+    "insert_password_field_after_tag": "<nodoInviaCarrelloRPT>",
+    "password_field_position": 0,
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodoinviarpt": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+    "path_to_password_field": "Envelope.Body.nodoInviaRPT.password",
+    "password_field_position": 0,
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodopachiediinformativapa": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodoattivarpt": {
+    "internal_subpath": "nodo-per-pa",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedielencoquadraturepsp": {
+    "internal_subpath": "nodo-per-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodoinviart": {
+    "internal_subpath": "nodo-per-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+
+  },
+  "nodoverificarpt": {
+    "internal_subpath": "nodo-per-psp",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedicatalogoservizi": {
+    "internal_subpath": "nodo-per-psp-richiesta-avvisi",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "nodochiedinumeroavviso": {
+    "internal_subpath": "nodo-per-psp-richiesta-avvisi",
+    "type": "soap",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "checkposition": {
+    "external_subpath": "checkposition",
+    "internal_subpath": "node-for-ecommerce",
+    "type": "rest",
+
+    "deprecated": false,
+    "dismissed": false
+  },
+  "closepaymentv2": {
+    "external_subpath": "v2/closepayment",
+    "internal_subpath": "node-for-ecommerce",
+    "type": "rest",
+
+    "deprecated": false,
+    "dismissed": false
+  }
+}

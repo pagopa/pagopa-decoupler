@@ -103,3 +103,15 @@ quarkus:
           otlp:
             endpoint: http://otel-collector:4317
             headers: Authorization=Bearer my-token
+
+
+##############################
+# Decoupler properties
+##############################
+decoupler:
+  nuova-connettivita:
+    password: ${DECOUPLER_NUOVACONNETTIVITA_PASSWORD}
+    x-forwarded-for: ${DECOUPLER_NUOVACONNETTIVITA_XFORWARDEDFOR}
+  prf:
+    dns: api.prf.platform.pagopa.it
+    ndphost-header: nodo-p-sit.nexigroup.com
