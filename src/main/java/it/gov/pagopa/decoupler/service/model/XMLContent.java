@@ -24,18 +24,25 @@ public class XMLContent {
 
   @Getter private Map<String, String> headers;
 
-  private XMLParser parserRef;
-
   private Map<RequestProp, Object> requestProps;
 
+  /**
+   * @param parser
+   * @param rawXML
+   * @return
+   * @throws XMLParseException
+   */
   public static XMLContent fromRaw(XMLParser parser, String rawXML) throws XMLParseException {
 
     XMLContent xmlContent = new XMLContent();
     xmlContent.parsedXML = parser.parse(rawXML);
-    xmlContent.parserRef = parser;
     return xmlContent;
   }
 
+  /**
+   * @param rawHeaders
+   * @return
+   */
   public XMLContent withHeaders(HttpHeaders rawHeaders) {
 
     this.headers = new HashMap<>();
@@ -49,12 +56,20 @@ public class XMLContent {
     return this;
   }
 
+  /**
+   * @param property
+   * @param value
+   * @return
+   */
   public XMLContent withProp(RequestProp property, Object value) {
 
     setProp(property, value);
     return this;
   }
 
+  /**
+   * @return
+   */
   public XMLContent build() {
 
     // Set primitive name from SOAPAction header
@@ -75,6 +90,10 @@ public class XMLContent {
     return builder.toString();
   }
 
+  /**
+   * @param key
+   * @param value
+   */
   public void addHeader(String key, String value) {
     String existingValue = this.headers.get(key);
     if (existingValue != null) {
@@ -85,14 +104,28 @@ public class XMLContent {
     }
   }
 
+  /**
+   * @param key
+   * @return
+   */
   public String getHeader(String key) {
     return this.headers.get(key);
   }
 
+  /**
+   * @param property
+   * @param value
+   */
   public void setProp(RequestProp property, Object value) {
     this.requestProps.put(property, value);
   }
 
+  /**
+   * @param property
+   * @param clazz
+   * @param <T>
+   * @return
+   */
   public <T> T getProp(RequestProp property, Class<T> clazz) {
     T value;
     try {
@@ -107,7 +140,8 @@ public class XMLContent {
   /**
    * The method permits to set the value of a field in the parsed XML. If the field does not exist,
    * this method will add it.<br>
-   * This method <u>cannot be used</u> for add single element in a list.
+   * This method <u>cannot be used</u> for add single element in a list, nor to populate the parsed
+   * XML from zero.
    *
    * @param field
    * @param value
@@ -115,55 +149,84 @@ public class XMLContent {
   @SuppressWarnings("unchecked")
   public void setField(String field, Object value, int insertPosition) {
 
-    // Split the path in parts
+    // Split the whole path in section by dot
     String[] fieldStep = field.split("\\.");
 
-    if (this.parsedXML != null && !this.parsedXML.isEmpty()) {
-
-      Map<String, Object> currentMap = this.parsedXML;
-
-      for (int i = 0; i < fieldStep.length - 1; i++) {
-        String key = fieldStep[i];
-        Object next = currentMap.get(key);
-
-        if (next instanceof Map) {
-          currentMap = (Map<String, Object>) next;
-        } else {
-          Map<String, Object> newMap = new LinkedHashMap<>();
-          currentMap.put(key, newMap);
-          currentMap = newMap;
-        }
-      }
-
-      String lastKey = fieldStep[fieldStep.length - 1];
-
-      LinkedHashMap<String, Object> newMap = new LinkedHashMap<>();
-      int index = 0;
-      boolean inserted = false;
-
-      for (Map.Entry<String, Object> entry : currentMap.entrySet()) {
-
-        String entryKey = entry.getKey();
-        if (entryKey.contains(XMLContent.TAG_ATTRIBUTE_PREFIX)
-            || XMLContent.TAG_PREFIX_IDENTIFIER.equals(entryKey)) {
-          newMap.put(entryKey, entry.getValue());
-        } else {
-          if (!inserted && (index == insertPosition || entryKey.equals(lastKey))) {
-            newMap.put(lastKey, Map.of(XMLContent.TAG_CONTENT_IDENTIFIER, value));
-            inserted = true;
-          }
-          newMap.put(entryKey, entry.getValue());
-          index++;
-        }
-      }
-
-      if (!inserted) {
-        newMap.put(lastKey, Map.of(XMLContent.TAG_CONTENT_IDENTIFIER, value));
-      }
-
-      currentMap.clear();
-      currentMap.putAll(newMap);
+    // Return if the parsed XML is null: this function must not be used
+    // to populate the map from zero!
+    if (this.parsedXML == null || this.parsedXML.isEmpty()) {
+      return;
     }
+    Map<String, Object> fieldMap = this.parsedXML;
+
+    // For each single step (minus the last) extracted from path, it is required to
+    // traverse through existing map, analyzing each node
+    for (String step : fieldStep) {
+
+      // If the extracted node, related to subpath step, is defined as
+      // a map, set directly this node to the current analyzing node.
+      Object childTag = fieldMap.get(step);
+      if (childTag instanceof Map<?, ?> childTagAsMap) {
+        fieldMap = (Map<String, Object>) childTagAsMap;
+      }
+
+      // WARNING: list case is not evaluated here, so currently no field
+      // in list can be added!
+
+      // If the extracted tag is null, create a new node in order to
+      // generate a new field path to traverse
+      else if (childTag == null) {
+        Map<String, Object> newChildTag = new LinkedHashMap<>();
+        fieldMap.put(step, newChildTag);
+        fieldMap = newChildTag;
+      }
+    }
+
+    // Initialize the element to be added in the last section of the map
+    String lastField = fieldStep[fieldStep.length - 1];
+    LinkedHashMap<String, Object> newChildTag = new LinkedHashMap<>();
+
+    // Now it is time to check where to put the new value: the last field
+    // is evaluated and, when the required insert position is reached or
+    // an existing field is found, include the required value. Meanwhile,
+    // re-generate the node map in the correct order.
+    int index = 0;
+    boolean inserted = false;
+    for (Map.Entry<String, Object> entry : fieldMap.entrySet()) {
+
+      // If the found element is an attribute or a prefix, simply re-add it
+      // on the new map and don't count it on index calculation. Avoiding
+      // index calculation on this case permits to not cause strange behavior
+      // on sorted insertion.
+      String entryKey = entry.getKey();
+      if (entryKey.contains(XMLContent.TAG_ATTRIBUTE_PREFIX)
+          || XMLContent.TAG_PREFIX_IDENTIFIER.equals(entryKey)) {
+        newChildTag.put(entryKey, entry.getValue());
+      }
+
+      // If no insertion was previously made and the required position is
+      // reached or a field with same name is found, directly set the value
+      // on the same field. Otherwise, continue to re-insert elements in map.
+      else {
+
+        if (!inserted && (index == insertPosition || entryKey.equals(lastField))) {
+          newChildTag.put(lastField, Map.of(XMLContent.TAG_CONTENT_IDENTIFIER, value));
+          inserted = true;
+        }
+        newChildTag.put(entryKey, entry.getValue());
+        index++;
+      }
+    }
+
+    // If a field is not inserted nor an existing field is updated, then add it
+    // anyway at the end of the node map.
+    if (!inserted) {
+      newChildTag.put(lastField, Map.of(XMLContent.TAG_CONTENT_IDENTIFIER, value));
+    }
+
+    // Finally, refresh the node map including the newly sorted node.
+    fieldMap.clear();
+    fieldMap.putAll(newChildTag);
   }
 
   /**
@@ -256,10 +319,14 @@ public class XMLContent {
     return value;
   }
 
+  /**
+   * @param field
+   * @return
+   */
   @SuppressWarnings("unchecked")
   private Object getFieldValue(String field) {
 
-    // Split the whole field in parts by dot
+    // Split the whole path in section by dot
     String[] fieldStep = field.split("\\.");
 
     // Return null if the parsed XML is null
@@ -268,33 +335,72 @@ public class XMLContent {
     }
     Map<String, Object> fieldMap = this.parsedXML;
 
-    //
+    // For each single step extracted from path, it is required to
+    // navigate through existing map, analyzing each node
     int currentIndex = 0;
     for (String step : fieldStep) {
-      currentIndex++;
 
+      // Extract the atomic components from single step, splitting
+      // field name from array index (if existing) in case is required
+      // to pass from array-based node.
+      currentIndex++;
       String[] stepComponents = step.split("\\[");
       step = stepComponents[0];
 
-      Object parentTag = fieldMap.get(step);
-      if (parentTag instanceof Map<?, ?> parentTagAsMap) {
-        fieldMap = (Map<String, Object>) parentTagAsMap;
-      } else if (parentTag instanceof List<?> parentTagAsList) {
+      // If the extracted node, related to subpath step, is defined as
+      // a map, set directly this node to the current analyzing node.
+      Object childTag = fieldMap.get(step);
+      if (childTag instanceof Map<?, ?> childTagAsMap) {
+        fieldMap = (Map<String, Object>) childTagAsMap;
+      }
+
+      // If the extracted node, related to subpath step, is defined as
+      // a list, then analyze different circumstances.
+      else if (childTag instanceof List<?> childTagAsList) {
+
+        // If the passed field is defined in format "path.to.field[index]",
+        // extract the node at the required index. If the index is out-of-bound
+        // i.e. the index is over the list size, return a null value.
         if (stepComponents.length > 1) {
           String rawIndex = stepComponents[1];
           int index = Integer.parseInt(rawIndex.substring(0, rawIndex.length() - 1));
-          fieldMap = (Map<String, Object>) ((List<Object>) parentTagAsList).get(index);
-        } else if (currentIndex == fieldStep.length) {
-          return parentTagAsList;
+          if (childTagAsList.size() <= index) {
+            return null;
+          }
+          fieldMap = (Map<String, Object>) ((List<Object>) childTagAsList).get(index);
         }
-      } else {
+
+        // If the passed field is not defined in format "path.to.field[index]",
+        // directly return the list object.
+        else if (currentIndex == fieldStep.length) {
+          return childTagAsList;
+        }
+
+        // If none of the previous cases, automatically extract the node at the first
+        // position of the list. If the list is empty, return a null value.
+        else {
+          if (childTagAsList.isEmpty()) {
+            return null;
+          }
+          fieldMap = (Map<String, Object>) ((List<Object>) childTagAsList).get(0);
+        }
+      }
+
+      // In other circumstances, the node is malformed so a null value is returned.
+      else {
         return null;
       }
     }
 
+    // Finally, return the content at TAG_CONTENT_IDENTIFIER key for the retrieved node
     return fieldMap.get(XMLContent.TAG_CONTENT_IDENTIFIER);
   }
 
+  /**
+   * @param contentBuilder
+   * @param tagName
+   * @param node
+   */
   private void extractXMLTag(StringBuilder contentBuilder, String tagName, Object node) {
 
     if (!(node instanceof Map<?, ?> tagNode)) {
@@ -324,14 +430,14 @@ public class XMLContent {
                 .append(" ")
                 .append(attributeName)
                 .append("=\"")
-                .append(escapeXml(attributeValue))
+                .append(escapeCharInXML(attributeValue))
                 .append("\""));
     contentBuilder.append(">");
 
     // After, the content value must be inserted between the tag delimiters
     Object value = tagNode.get(XMLContent.TAG_CONTENT_IDENTIFIER);
     if (value instanceof String strVal) {
-      contentBuilder.append(escapeXml(strVal));
+      contentBuilder.append(escapeCharInXML(strVal));
     }
 
     // But before closing this tag, it is required to add all nested tags!
@@ -355,7 +461,11 @@ public class XMLContent {
     contentBuilder.append("</").append(fullTag).append(">");
   }
 
-  private static String escapeXml(String input) {
+  /**
+   * @param input
+   * @return
+   */
+  private static String escapeCharInXML(String input) {
     return input
         .replace("\"", "&quot;")
         .replace("'", "&apos;")

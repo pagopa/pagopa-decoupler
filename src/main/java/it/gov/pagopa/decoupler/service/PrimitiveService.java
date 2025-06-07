@@ -41,6 +41,8 @@ public class PrimitiveService {
     // TODO set baseUrl-baseNodeId and TTLs
 
     // policy: wisp-batch-migration
+    executeWispBatchMigration(request);
+
     // policy: ndp-wisp-nodoinviarpt-nodoinviacarrellorpt-inbound-policy
     // if is_whitelisted=true -> send request to D-WISP, otherwise continue
     // policy: ndp-rpt-inbound-policy
@@ -82,4 +84,6 @@ public class PrimitiveService {
         primitiveInfo.getPwdFieldPosition());
     request.addHeader("x-forwarded-for", xForwardedForValue);
   }
+
+  private void executeWispBatchMigration(XMLContent request) {}
 }
