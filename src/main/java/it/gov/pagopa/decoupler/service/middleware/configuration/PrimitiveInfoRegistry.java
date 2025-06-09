@@ -48,7 +48,7 @@ public class PrimitiveInfoRegistry {
       }
 
     } catch (IOException e) {
-      throw new RuntimeException("Failed to load primitives info from configuration file", e);
+      throw new RuntimeException("Failed to load primitives info from configuration file.", e);
     }
   }
 

@@ -17,8 +17,20 @@ public class PrimitiveInfo {
   @JsonProperty("internal_subpath")
   private String internalSubpath;
 
+  @JsonProperty("path_to_creditor_institution_field")
+  private String pathToCreditorInstitutionField;
+
+  @JsonProperty("path_to_station_field")
+  private String pathToStationField;
+
+  @JsonProperty("path_to_channel_field")
+  private String pathToChannelField;
+
+  @JsonProperty("path_to_brokerpsp_field")
+  private String pathToBrokerPSPField;
+
   @JsonProperty("path_to_password_field")
-  private String pathToPwdField;
+  private String pathToPasswordField;
 
   @JsonProperty("insert_password_field_after_tag")
   private String pwdFieldAfterTag;
