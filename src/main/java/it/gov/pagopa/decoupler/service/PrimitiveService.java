@@ -55,7 +55,9 @@ public class PrimitiveService {
     this.xmlParser = xmlParser;
   }
 
-  public String handleNodoInviaRPT(XMLContent request) {
+  public XMLContent handleNodoInviaRPT(XMLContent request) {
+
+    XMLContent response;
 
     // ===== INBOUND (pre-request) =====
     // policy: ndphost-header

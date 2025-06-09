@@ -9,6 +9,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -49,5 +50,5 @@ public interface INodoPerPAController {
                     schema = @Schema(implementation = ErrorResponse.class),
                     example = SOAPControllerConstants.OPENAPI_XML_NODOINVIARPT_KO_EXAMPLE))
       })
-  String handleNodoInviaRPTinAuth(String body, @Context HttpHeaders headers);
+  Response handleNodoInviaRPTinAuth(String body, @Context HttpHeaders headers);
 }

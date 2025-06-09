@@ -35,14 +35,14 @@ public class WISPDismantlingSOAPClient {
     XMLContent xmlResponse;
     try {
       RestClientBuilder clientBuilder = RestClientBuilder.newBuilder();
-      clientBuilder.baseUri(new URI(baseURL));
+      clientBuilder.baseUri(new URI(this.baseURL));
       request.getHeaders().forEach(clientBuilder::header);
       SOAPClient client = clientBuilder.build(SOAPClient.class);
 
       try (Response response = client.send(request.asRawString())) {
 
         String rawXMLResponse = response.readEntity(String.class);
-        xmlResponse = XMLContent.fromRaw(xmlParser, rawXMLResponse);
+        xmlResponse = XMLContent.fromRaw(this.xmlParser, rawXMLResponse);
         for (Map.Entry<String, List<Object>> entry : response.getHeaders().entrySet()) {
           xmlResponse.addHeader(entry.getKey(), Strings.join(entry.getValue(), ","));
         }

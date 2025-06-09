@@ -8,6 +8,7 @@ import it.gov.pagopa.decoupler.service.model.RequestProp;
 import it.gov.pagopa.decoupler.service.model.XMLContent;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
 
 public class NodoPerPAController implements INodoPerPAController {
 
@@ -22,7 +23,7 @@ public class NodoPerPAController implements INodoPerPAController {
   }
 
   @Override
-  public String handleNodoInviaRPTinAuth(String body, @Context HttpHeaders headers)
+  public Response handleNodoInviaRPTinAuth(String body, @Context HttpHeaders headers)
       throws XMLParseException {
 
     XMLContent request =
@@ -30,6 +31,9 @@ public class NodoPerPAController implements INodoPerPAController {
             .withHeaders(headers)
             .withProp(RequestProp.IS_ON_NUOVA_CONNETTIVITA, true)
             .build();
-    return primitiveService.handleNodoInviaRPT(request);
+    XMLContent response = primitiveService.handleNodoInviaRPT(request);
+    Response.ResponseBuilder responseBuilder = Response.status(200).entity(response.asRawString());
+    response.getHeaders().forEach((key, value) -> responseBuilder.header(key, value));
+    return responseBuilder.build();
   }
 }
