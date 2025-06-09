@@ -1,4 +1,4 @@
-package it.gov.pagopa.decoupler.controller.middleware.exceptionhandler;
+package it.gov.pagopa.decoupler.controller.middleware.exception;
 
 import static it.gov.pagopa.decoupler.util.logging.AppMessageUtil.logErrorMessage;
 

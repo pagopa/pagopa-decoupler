@@ -32,7 +32,7 @@ public class ErrorResponse {
   private String httpStatusDescription;
 
   @Schema(
-      example = "FDR-0500",
+      example = "DEC-0500",
       description = "The operational error code related to the error response")
   private String appErrorCode;
 

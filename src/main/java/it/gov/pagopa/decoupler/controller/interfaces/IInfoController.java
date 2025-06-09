@@ -3,6 +3,7 @@ package it.gov.pagopa.decoupler.controller.interfaces;
 import it.gov.pagopa.decoupler.controller.model.common.InfoResponse;
 import it.gov.pagopa.decoupler.controller.model.error.ErrorResponse;
 import it.gov.pagopa.decoupler.util.constant.ControllerConstants;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -20,6 +21,7 @@ public interface IInfoController {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
   @Operation(
       operationId = "IInfoController_healthCheck",
       summary = "Health Check",
