@@ -1,5 +1,6 @@
-package it.gov.pagopa.decoupler.client;
+package it.gov.pagopa.decoupler.client.impl.soap;
 
+import it.gov.pagopa.decoupler.client.interfaces.soap.SOAPClient;
 import it.gov.pagopa.decoupler.controller.middleware.exception.SOAPClientException;
 import it.gov.pagopa.decoupler.controller.middleware.exception.XMLParseException;
 import it.gov.pagopa.decoupler.service.middleware.mapper.XMLParser;

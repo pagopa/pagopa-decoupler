@@ -6,6 +6,9 @@ import lombok.Data;
 @Data
 public class WISPDismantlingRouting {
 
+  @JsonProperty("is_enabled")
+  private boolean enabled;
+
   @JsonProperty("whitelist")
   private WISPDismantlingWhitelist whitelist;
 }

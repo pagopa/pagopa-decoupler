@@ -7,6 +7,9 @@ quarkus:
   application:
     environment: ${ENV:local}
     title: ${APP_TITLE}
+  redis:
+      hosts: ${REDIS_HOST}
+      password: ${REDIS_PASSWORD}
   native:
     additional-build-args: -H:ResourceConfigurationFiles=resources-config.json
   log:
@@ -113,7 +116,10 @@ decoupler:
     password: ${DECOUPLER_NUOVACONNETTIVITA_PASSWORD}
     x-forwarded-for: ${DECOUPLER_NUOVACONNETTIVITA_XFORWARDEDFOR}
   wisp-dismantling:
-    base-url: ${DECOUPLER_WISPDISMANTLING_BASEURL}
+    converter:
+      base-url: ${DECOUPLER_WISPDISMANTLING_BASEURL}
+    soap-converter:
+      base-url: ${DECOUPLER_WISPDISMANTLING_SOAP_BASEURL}
   prf:
     dns: api.prf.platform.pagopa.it
     ndphost-header: nodo-p-sit.nexigroup.com

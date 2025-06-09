@@ -7,14 +7,17 @@ import lombok.Data;
 public class CachedKeysTTL {
 
   @JsonProperty("fiscalcode_noticenumber")
-  private long fiscalCodeNoticeNumberKeyTTL;
+  private int fiscalCodeNoticeNumberKeyTTL;
 
   @JsonProperty("fiscalcode_iuv")
-  private long fiscalCodeIUVKeyTTL;
+  private int fiscalCodeIUVKeyTTL;
 
   @JsonProperty("paymenttoken")
-  private long paymentTokenKeyTTL;
+  private int paymentTokenKeyTTL;
 
   @JsonProperty("ecommerce_transactionid")
-  private long eCommerceTransactionIdKeyTTL;
+  private int eCommerceTransactionIdKeyTTL;
+
+  @JsonProperty("wisp_sessionid_validity_before_redirect")
+  private int wispSessionIdValidityBeforeRedirect;
 }

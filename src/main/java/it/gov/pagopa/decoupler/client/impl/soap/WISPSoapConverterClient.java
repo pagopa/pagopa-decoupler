@@ -1,5 +1,6 @@
-package it.gov.pagopa.decoupler.client;
+package it.gov.pagopa.decoupler.client.impl.soap;
 
+import it.gov.pagopa.decoupler.client.interfaces.soap.SOAPClient;
 import it.gov.pagopa.decoupler.controller.middleware.exception.SOAPClientException;
 import it.gov.pagopa.decoupler.controller.middleware.exception.XMLParseException;
 import it.gov.pagopa.decoupler.service.middleware.mapper.XMLParser;
@@ -16,16 +17,16 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.mapstruct.ap.internal.util.Strings;
 
 @ApplicationScoped
-public class WISPDismantlingSOAPClient {
+public class WISPSoapConverterClient {
 
-  @ConfigProperty(name = "decoupler.wisp-dismantling.base-url")
+  @ConfigProperty(name = "decoupler.wisp-dismantling.soap-converter.base-url")
   private String baseURL;
 
   @RestClient private final SOAPClient soapClient;
 
   private final XMLParser xmlParser;
 
-  public WISPDismantlingSOAPClient(SOAPClient soapClient, XMLParser parser) {
+  public WISPSoapConverterClient(SOAPClient soapClient, XMLParser parser) {
     this.soapClient = soapClient;
     this.xmlParser = parser;
   }

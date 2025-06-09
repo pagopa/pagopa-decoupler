@@ -1,4 +1,4 @@
-package it.gov.pagopa.decoupler.client;
+package it.gov.pagopa.decoupler.client.interfaces.soap;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;

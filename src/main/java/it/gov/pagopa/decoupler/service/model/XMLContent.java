@@ -239,11 +239,16 @@ public class XMLContent {
   public String getFieldAsString(String field) {
 
     String value = null;
-    Object fieldValue = getFieldValue(field);
+    Object fieldValue = getField(field);
     if (fieldValue != null) {
       value = fieldValue.toString();
     }
     return value;
+  }
+
+  public String getFieldAsString(String field, String defaultValue) {
+    String value = getFieldAsString(field);
+    return value != null ? value : defaultValue;
   }
 
   /**
@@ -256,7 +261,7 @@ public class XMLContent {
   public Integer getFieldAsInteger(String field) {
 
     Integer value = null;
-    Object fieldValue = getFieldValue(field);
+    Object fieldValue = getField(field);
     if (fieldValue != null) {
       value = Integer.parseInt(fieldValue.toString());
     }
@@ -273,7 +278,7 @@ public class XMLContent {
   public Double getFieldAsDouble(String field) {
 
     Double value = null;
-    Object fieldValue = getFieldValue(field);
+    Object fieldValue = getField(field);
     if (fieldValue != null) {
       value = Double.parseDouble(fieldValue.toString());
     }
@@ -290,7 +295,7 @@ public class XMLContent {
   public Boolean getFieldAsBoolean(String field) {
 
     Boolean value = null;
-    Object fieldValue = getFieldValue(field);
+    Object fieldValue = getField(field);
     if (fieldValue != null) {
       if ("1".equals(fieldValue)) {
         value = Boolean.TRUE;
@@ -312,7 +317,7 @@ public class XMLContent {
   public List<Object> getFieldAsList(String field) {
 
     List<Object> value = null;
-    Object fieldValue = getFieldValue(field);
+    Object fieldValue = getField(field);
     if (fieldValue instanceof List<?> fieldValueAsList) {
       value = (List<Object>) fieldValueAsList;
     }
@@ -324,7 +329,7 @@ public class XMLContent {
    * @return
    */
   @SuppressWarnings("unchecked")
-  private Object getFieldValue(String field) {
+  public Object getField(String field) {
 
     // Split the whole path in section by dot
     String[] fieldStep = field.split("\\.");

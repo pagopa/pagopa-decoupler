@@ -75,6 +75,10 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-validator</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-redis-client</artifactId>
+    </dependency>
     <!-- Mapstruct dependencies -->
     <dependency>
       <groupId>org.mapstruct</groupId>

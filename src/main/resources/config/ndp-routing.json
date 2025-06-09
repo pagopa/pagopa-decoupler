@@ -1,12 +1,14 @@
 {
   "default_node_id": "NDP002SIT",
   "cached_keys_ttl": {
+    "wisp_sessionid_validity_before_redirect": 900,
     "fiscalcode_noticenumber": 5184000,
     "fiscalcode_iuv": 5184000,
     "paymenttoken": 5184000,
     "ecommerce_transactionid": 86400
   },
   "wisp_dismantling": {
+    "is_enabled": true,
     "whitelist": {
       "creditor_institutions": ["*"],
       "stations": ["*"],
