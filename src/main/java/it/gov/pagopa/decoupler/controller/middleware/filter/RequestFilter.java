@@ -61,12 +61,4 @@ public class RequestFilter {
 
     // ctx.next();
   }
-
-  private void setEndpointIfSoapRequest(RoutingContext ctx) {
-
-    String soapAction = ctx.request().getHeader("soapAction");
-    if (soapAction != null) {
-      ctx.reroute(ctx.request().uri() + soapAction);
-    }
-  }
 }
