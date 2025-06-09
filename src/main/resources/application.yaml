@@ -112,6 +112,8 @@ decoupler:
   nuova-connettivita:
     password: ${DECOUPLER_NUOVACONNETTIVITA_PASSWORD}
     x-forwarded-for: ${DECOUPLER_NUOVACONNETTIVITA_XFORWARDEDFOR}
+  wisp-dismantling:
+    base-url: ${DECOUPLER_WISPDISMANTLING_BASEURL}
   prf:
     dns: api.prf.platform.pagopa.it
     ndphost-header: nodo-p-sit.nexigroup.com

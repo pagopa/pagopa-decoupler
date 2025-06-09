@@ -1,5 +1,7 @@
 package it.gov.pagopa.decoupler.service;
 
+import it.gov.pagopa.decoupler.client.NDPSOAPClient;
+import it.gov.pagopa.decoupler.client.WISPDismantlingSOAPClient;
 import it.gov.pagopa.decoupler.service.middleware.configuration.DecouplerConfiguration;
 import it.gov.pagopa.decoupler.service.middleware.configuration.PrimitiveInfoRegistry;
 import it.gov.pagopa.decoupler.service.middleware.configuration.model.wispdismantling.WISPDismantlingWhitelist;
@@ -29,6 +31,10 @@ public class PrimitiveService {
   @ConfigProperty(name = "decoupler.nuova-connettivita.x-forwarded-for")
   private String xForwardedForValue;
 
+  private final WISPDismantlingSOAPClient wispDismantlingSOAPClient;
+
+  private final NDPSOAPClient ndpSOAPClient;
+
   private final DecouplerConfiguration decouplerConfig;
 
   private final PrimitiveInfoRegistry primitiveRegistry;
@@ -36,10 +42,14 @@ public class PrimitiveService {
   private final XMLParser xmlParser;
 
   public PrimitiveService(
+      WISPDismantlingSOAPClient wispDismantlingSOAPClient,
+      NDPSOAPClient ndpSOAPClient,
       PrimitiveInfoRegistry primitiveRegistry,
       DecouplerConfiguration decouplerConfig,
       XMLParser xmlParser) {
 
+    this.wispDismantlingSOAPClient = wispDismantlingSOAPClient;
+    this.ndpSOAPClient = ndpSOAPClient;
     this.primitiveRegistry = primitiveRegistry;
     this.decouplerConfig = decouplerConfig;
     this.xmlParser = xmlParser;
@@ -56,12 +66,22 @@ public class PrimitiveService {
 
     // policy: ndp-wisp-nodoinviarpt-nodoinviacarrellorpt-inbound-policy
     boolean isRequestForWispDismantling = mustBeRoutedToWISPDismantling(request);
+    if (isRequestForWispDismantling) {
+      XMLContent response = this.wispDismantlingSOAPClient.send(request);
+    }
 
-    // if is_whitelisted=true -> send request to D-WISP, otherwise continue
-    // policy: ndp-rpt-inbound-policy
-    // policy: ndp-set-base-url-policy
-    // ===== EXECUTE REQUEST =====
-    // ===== OUTBOUND (post-request) =====
+    //
+    else {
+
+      // policy: ndp-rpt-inbound-policy
+
+      // policy: ndp-set-base-url-policy
+
+      // ===== EXECUTE REQUEST =====
+      // ===== OUTBOUND (post-request) =====
+
+    }
+
     // policy: ndp-wisp-nodoinviarpt-nodoinviacarrellorpt-outbound-policy
 
     return null;
