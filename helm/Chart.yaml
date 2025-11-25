@@ -2,8 +2,8 @@ apiVersion: v2
 name: pagopa-decoupler-chart
 description: pagoPA Decoupler
 type: application
-version: "0.5.0"
-appVersion: "0.0.1-5-fix-identity"
+version: "0.6.0"
+appVersion: "0.0.2"
 dependencies:
   - name: microservice-chart
     version: 7.1.1
