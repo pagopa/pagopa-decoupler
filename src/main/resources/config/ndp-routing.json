@@ -1,0 +1,53 @@
+{
+  "default_node_id": "NDP002SIT",
+  "cached_keys_ttl": {
+    "wisp_sessionid_validity_before_redirect": 900,
+    "fiscalcode_noticenumber": 5184000,
+    "fiscalcode_iuv": 5184000,
+    "paymenttoken": 5184000,
+    "ecommerce_transactionid": 86400
+  },
+  "wisp_dismantling": {
+    "is_enabled": true,
+    "whitelist": {
+      "creditor_institutions": ["*"],
+      "stations": ["*"],
+      "brokers": ["97735020584"],
+      "channels": ["97735020584_02"],
+      "nodoinviarpt_paymenttypes": ["BBT"]
+    },
+  },
+  "instances": [
+    {
+      "node_id": "NDP002SIT",
+      "description": "Nodo OnCloud Nexi",
+      "node_uri": "http://10.70.66.200/nodo-sit",
+      "routing": 100,
+      "broker_psps": [],
+      "cis": [],
+      "list_priority": 3
+    },
+    {
+      "node_id": "NDP001DEV",
+      "description": "Nodo Azure PagoPA",
+      "node_uri": "https://weudev.nodo.internal.dev.platform.pagopa.it/nodo",
+      "routing": 0,
+      "broker_psps": [],
+      "cis": [
+        "15376371009"
+      ],
+      "list_priority": 1
+    },
+    {
+      "node_id": "NDP004IT",
+      "description": "Nodo PostgreSQL OnPrem Nexi",
+      "node_uri": "https://10.79.20.32/sit",
+      "routing": 0,
+      "broker_psps": [],
+      "cis": [
+        "88888888888"
+      ],
+      "list_priority": 2
+    }
+  ]
+}
